@@ -59,8 +59,8 @@ angular.module('stockWatch.controllers', [])
     ];
 }])
 
-.controller('StockCtrl', ['$scope', '$stateParams', 'stockDataService',
-   function($scope, $stateParams, stockDataService) {
+.controller('StockCtrl', ['$scope', '$stateParams', 'stockDataService', 'dateService',
+   function($scope, $stateParams, stockDataService, dateService) {
      $scope.ticker = $stateParams.stockTicker;
 
      $scope.$on('$ionicView.afterEnter', function(){
