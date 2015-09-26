@@ -68,7 +68,14 @@ angular.module('stockWatch.controllers', [])
        getDetailsData();
      });
 
+     $scope.chartView = 1;
+
+     $scope.chartViewFunc=function(inp){
+       $scope.chartView=inp;
+     };
+
      function getPriceData(){
+
 
      var promise = stockDataService.getPriceData($scope.ticker);
      promise.then(function(data){
