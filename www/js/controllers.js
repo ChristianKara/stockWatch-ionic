@@ -59,7 +59,35 @@ angular.module('stockWatch.controllers', [])
     ];
 }])
 
-.controller('StockCtrl', ['$scope', '$stateParams',
-   function($scope, $stateParams) {
-  $scope.ticker=$stateParams.stockTicker;
+.controller('StockCtrl', ['$scope', '$stateParams', 'stockDataService',
+   function($scope, $stateParams, stockDataService) {
+     $scope.ticker = $stateParams.stockTicker;
+
+     $scope.$on('$ionicView.afterEnter', function(){
+       getPriceData();
+       getDetailsData();
+     });
+
+     function getPriceData(){
+
+     var promise = stockDataService.getPriceData($scope.ticker);
+     promise.then(function(data){
+
+       console.log(data);
+
+       $scope.stockPriceData = data;
+     });
+   }
+
+   function getDetailsData(){
+
+   var promise = stockDataService.getDetailsData($scope.ticker);
+   promise.then(function(data){
+
+     console.log(data);
+
+     $scope.stockDetailsData = data;
+   });
+   }
+
 }]);
