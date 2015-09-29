@@ -3,6 +3,7 @@ angular.module('stockWatch', [
   'angular-cache',
   'nvd3',
   'nvChart',
+  'cb.x2js',
   'stockWatch.controllers',
   'stockWatch.services',
   'stockWatch.filters',
