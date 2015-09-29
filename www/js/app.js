@@ -1,5 +1,6 @@
 angular.module('stockWatch', [
   'ionic',
+  'angular-cache',
   'nvd3',
   'nvChart',
   'stockWatch.controllers',
