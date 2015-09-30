@@ -100,7 +100,7 @@
   float: right;
 }
 
-/*News Cards Style*/
+/*News Cards Style-----------------------------------*/
 
 #stock-news .icon {
   color: #ccc;
@@ -124,7 +124,7 @@
   padding-right: 30px;
 }
 
-/*Chart Styles*/
+/*Chart Styles-------------------------------------*/
 
 #interactiveChart {
   height: 80vmin;
@@ -220,7 +220,7 @@
   stroke: #ccc
 }
 
-/*Search Styles*/
+/*Search Styles------------------------------------*/
 
 #search {
   background-color: rgba(20, 20, 20, .975);
@@ -234,7 +234,7 @@
   color: #fff;
 }
 
-/*Helper Styles*/
+/*Helper Styles----------------------------------------*/
 
 .display-flex {
   display:flex !important;
@@ -269,8 +269,64 @@
   text-transform: capitalize !important;
 }
 
+.color-red {
+  color: #ef473a !important;
+}
 
-/*Adjustment Styles*/
+.background-red {
+  background-color: #ef473a !important;
+}
+
+.background-green {
+  background-color: #33cd5f !important;
+}
+
+.color-green {
+  color: #33cd5f !important;
+}
+
+
+/*My Stock Styles--------------------------------------*/
+
+#my-stocks .item-content {
+  padding: 5px 0px 5px 5px;
+}
+
+#my-stocks h3 {
+  font-size: 4.75vmin;
+}
+
+#my-stocks h6 {
+  font-size: 3vmin;
+  font-weight: 300;
+}
+
+#my-stocks .stock-price-time {
+  padding-right: 10px;
+  text-align:right;
+}
+
+#my-stocks .stock-price-time h3 {
+  font-weight: normal;
+}
+
+#my-stocks .stock-change {
+  border-bottom-left-radius: 3px;
+  border-bottom-right-radius: 3px;
+  margin-right: -10px;
+
+}
+
+#my-stocks .stock-change h3,
+#my-stocks .stock-change h6 {
+  color: #fff;
+}
+
+#my-stocks .inset-shadow {
+  -webkit-box-shadow: inset 0px 0px 15px rgba(0, 0, 0, .15);
+}
+
+/*Adjustment Styles------------------------------------*/
 
 svg text {
   font: 400 10pt 'Helvetica Neue', sans-serif !important;
