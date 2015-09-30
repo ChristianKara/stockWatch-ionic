@@ -88,6 +88,7 @@ angular.module('stockWatch.controllers', [])
      $scope.openWindow= function(link){
        //TODO install and setup in app browser
        console.log("openWindow ->" + link);
+       console.log($scope.newsStories[3]);
      };
 
 
