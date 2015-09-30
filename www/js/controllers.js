@@ -2,13 +2,36 @@ angular.module('stockWatch.controllers', [])
 
 .controller('AppCtrl', ['$scope','modalService',
   function($scope, modalService) {
-
     $scope.modalService = modalService;
-
 }])
 
-.controller('MyStocksCtrl', ['$scope', 'myStocksArrayService',
-  function($scope, myStocksArrayService) {
+.controller('MyStocksCtrl', ['$scope', 'myStocksArrayService', 'stockDataService', 'stockPriceCacheService','followStocksService',
+  function($scope, myStocksArrayService, stockDataService, stockPriceCacheService, followStocksService) {
+
+    $scope.$on('$ionicView.afterEnter', function(){
+      $scope.getMyStockData();
+    });
+
+        $scope.getMyStockData = function(){
+
+          myStocksArrayService.forEach(function(stock){
+            var promise = stockDataService.getPriceData(stock.ticker);
+
+            $scope.myStocksData = [];
+
+            promise.then(function(data){
+              $scope.myStocksData.push(stockPriceCacheService.get(data.symbol));
+            });
+          });
+
+    $scope.$broadcast('scroll.refreshComplete');
+    };
+
+
+    $scope.unfollowStock = function(ticker){
+      followStocksService.unfollow(ticker);
+      $scope.getMyStockData();
+    };
 
     $scope.myStocksArray = myStocksArrayService;
     console.log(myStocksArrayService);

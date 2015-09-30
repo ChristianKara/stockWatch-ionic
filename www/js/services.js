@@ -52,13 +52,32 @@ angular.module('stockWatch.services', [])
 
 })
 
-.factory('stockDataService', function($q,$http, encodeURIService, stockDetailsCacheService){
+.factory('stockPriceCacheService', function(CacheFactory){
+
+  var stockPriceCache;
+
+  if(!CacheFactory.get('stockPriceCache')){
+    stockPriceCache = CacheFactory('stockPriceCache', {
+      maxAge: 5 * 1000,
+      deleteOnExpire:'aggressive',
+      storageMode: 'localStorage'
+    });
+  }else{
+    stockPriceCache = CacheFactory.get('stockPriceCache');
+  }
+
+  return stockPriceCache;
+
+})
+
+.factory('stockDataService', function($q,$http, encodeURIService, stockDetailsCacheService, stockPriceCacheService){
 
   var getDetailsData=function(ticker){
 
     var deferred=$q.defer(),
 
     cacheKey = ticker,
+
     stockDeatailsCache = stockDetailsCacheService.get(cacheKey),
     query = 'select * from yahoo.finance.quotes where symbol IN ("' + ticker + '")',
     url = 'http://query.yahooapis.com/v1/public/yql?q='+ encodeURIService.encode(query) + '&format=json&env=http://datatables.org/alltables.env';
@@ -87,12 +106,16 @@ if(stockDeatailsCache){
  var getPriceData=function(ticker){
 
    var deferred = $q.defer(),
+
+       cacheKey = ticker,
+
        url='http://finance.yahoo.com/webservice/v1/symbols/'+ ticker + '/quote?format=json&view=detail';
 
       $http.get(url)
         .success(function(json){
           var jsonData = json.list.resources[0].resource.fields;
           deferred.resolve(jsonData);
+          stockPriceCacheService.put(cacheKey, jsonData);
       })
         .error(function(err){
             console.log("Price Data Error"+ err);
