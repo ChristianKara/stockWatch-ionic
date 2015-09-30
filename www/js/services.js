@@ -1,5 +1,8 @@
 angular.module('stockWatch.services', [])
 
+
+.constant('FIREBASE_URL', 'https://stockmarketwatch.firebaseio.com/')
+
 .factory('encodeURIService', function(){
 
   return {
@@ -7,6 +10,70 @@ angular.module('stockWatch.services', [])
       console.log(string);
       return encodeURIComponent(string).replace(/\"/g, "%22").replace(/\ /g, "%20").replace(/[!'()]/g, escape);
     }
+  };
+
+})
+
+.factory("firebaseRef", function($firebase, FIREBASE_URL){
+
+  var firebaseRef = new Firebase(FIREBASE_URL);
+
+  return firebaseRef;
+})
+
+.factory('userService', function(firebaseRef, $rootScope, modalService){
+
+  var login = function(user){
+    firebaseRef.authWithPassword({
+      email : user.email,
+      password : user.password
+}, function(error, authData) {
+  if (error) {
+    console.log("Login Failed!", error);
+  } else {
+    $rootScope.currentUser = user;
+    modalService.closeModal();
+    console.log("Authenticated successfully with payload:", authData);
+  }
+});
+
+
+  };
+
+  var signup = function(user){
+    firebaseRef.createUser({
+  email    : user.email,
+  password : user.password
+}, function(error, userData) {
+  if (error) {
+    console.log("Error creating user:", error);
+  } else {
+    login(user);
+    console.log("Successfully created user account with uid:", userData.uid);
+  }
+});
+
+
+  };
+
+  var logout = function(){
+      firebaseRef.unauth();
+      $rootScope.currentUser='';
+  };
+
+  var getUser = function(){
+    return firebaseRef.getAuth();
+  };
+
+  if(getUser()){
+    $rootScope.currentUser = getUser();
+  }
+
+  return {
+    login:login,
+    signup:signup,
+    logout:logout,
+    getUser: getUser
   };
 
 })
@@ -416,15 +483,19 @@ if(chartDataCache){
     });
   }else if(id==2){
     $ionicModal.fromTemplateUrl('templates/login.html', {
-      scope: $scope
+      scope: null,
+      controller: 'LogInSearchCtrl'
     }).then(function(modal) {
-      $scope.modal = modal;
+      _this.modal = modal;
+      _this.modal.show();
     });
   }else if(id ==3){
-    $ionicModal.fromTemplateUrl('templates/login.html', {
-      scope: $scope
+    $ionicModal.fromTemplateUrl('templates/signup.html', {
+      scope: null,
+      controller:'LogInSearchCtrl',
     }).then(function(modal) {
-      $scope.modal = modal;
+      _this.modal = modal;
+      _this.modal.show();
     });
   }
   };

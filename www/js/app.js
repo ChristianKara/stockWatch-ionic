@@ -1,5 +1,6 @@
 angular.module('stockWatch', [
   'ionic',
+  'firebase',
   'angular-cache',
   'nvd3',
   'nvChart',
